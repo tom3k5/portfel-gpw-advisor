@@ -1,2 +1,6 @@
 export * from './theme';
-// Components will be exported here as we create them
+
+// Components
+export { PortfolioTable } from './components/PortfolioTable';
+export { StockChart } from './components/StockChart';
+export { PortfolioSummary } from './components/PortfolioSummary';

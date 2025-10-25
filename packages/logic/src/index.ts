@@ -9,3 +9,7 @@ export {
   calculatePortfolioValue,
   calculatePortfolioSummary,
 } from './calculations/portfolio';
+
+// Mocks
+export type { PortfolioHistoryPoint } from './mocks/portfolio-history';
+export { generateMockPortfolioHistory, MOCK_PORTFOLIO_HISTORY } from './mocks/portfolio-history';
