@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Text, Button, FAB } from 'react-native-paper';
+import { useRouter } from 'expo-router';
 
 import {
   calculatePortfolioSummary,
@@ -42,6 +43,7 @@ const MOCK_POSITIONS: Position[] = [
 ];
 
 export default function PortfolioScreen(): JSX.Element {
+  const router = useRouter();
   const summary = calculatePortfolioSummary(MOCK_POSITIONS);
 
   const handleRowPress = (symbol: string): void => {
@@ -49,23 +51,51 @@ export default function PortfolioScreen(): JSX.Element {
     console.log('Pressed:', symbol);
   };
 
+  const handleImportPress = (): void => {
+    router.push('/import');
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <PortfolioSummary summary={summary} />
+    <>
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Text variant="headlineMedium" style={styles.title}>
+            Portfel GPW Advisor
+          </Text>
+          <Button
+            mode="contained"
+            icon="plus"
+            onPress={handleImportPress}
+            style={styles.importButton}
+          >
+            Import
+          </Button>
+        </View>
 
-      <StockChart
-        data={MOCK_PORTFOLIO_HISTORY}
-        title="Portfolio Value History"
-        showArea={true}
+        <PortfolioSummary summary={summary} />
+
+        <StockChart
+          data={MOCK_PORTFOLIO_HISTORY}
+          title="Portfolio Value History"
+          showArea={true}
+        />
+
+        <View style={styles.tableContainer}>
+          <Text variant="titleMedium" style={styles.tableTitle}>
+            Holdings
+          </Text>
+          <PortfolioTable positions={MOCK_POSITIONS} onRowPress={handleRowPress} />
+        </View>
+      </ScrollView>
+
+      {/* Floating Action Button */}
+      <FAB
+        icon="plus"
+        style={styles.fab}
+        onPress={handleImportPress}
+        label="Import"
       />
-
-      <View style={styles.tableContainer}>
-        <Text variant="titleMedium" style={styles.tableTitle}>
-          Holdings
-        </Text>
-        <PortfolioTable positions={MOCK_POSITIONS} onRowPress={handleRowPress} />
-      </View>
-    </ScrollView>
+    </>
   );
 }
 
@@ -75,12 +105,32 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundSecondary,
     padding: spacing.md,
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.lg,
+  },
+  title: {
+    fontWeight: 'bold',
+    color: colors.primary,
+  },
+  importButton: {
+    backgroundColor: colors.primary,
+  },
   tableContainer: {
     marginTop: spacing.lg,
-    marginBottom: spacing.xl,
+    marginBottom: 100, // Space for FAB
   },
   tableTitle: {
     fontWeight: 'bold',
     marginBottom: spacing.md,
+  },
+  fab: {
+    position: 'absolute',
+    margin: spacing.md,
+    right: 0,
+    bottom: 0,
+    backgroundColor: colors.primary,
   },
 });

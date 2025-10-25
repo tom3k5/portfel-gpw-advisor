@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from 'react-native-paper';
 
 import {
   calculatePortfolioSummary,
@@ -41,15 +43,30 @@ const MOCK_POSITIONS: Position[] = [
 ];
 
 export default function HomePage(): JSX.Element {
+  const router = useRouter();
   const summary = calculatePortfolioSummary(MOCK_POSITIONS);
 
   const handleRowPress = (symbol: string): void => {
     console.log('Clicked:', symbol);
   };
 
+  const handleImportPress = (): void => {
+    router.push('/import');
+  };
+
   return (
     <main style={styles.container}>
-      <h1 style={styles.mainTitle}>Portfel GPW Advisor</h1>
+      <div style={styles.header}>
+        <h1 style={styles.mainTitle}>Portfel GPW Advisor</h1>
+        <Button
+          mode="contained"
+          icon="plus"
+          onPress={handleImportPress}
+          style={{ backgroundColor: colors.primary }}
+        >
+          Import Portfolio
+        </Button>
+      </div>
 
       <div style={styles.content}>
         <PortfolioSummary summary={summary} />
@@ -77,11 +94,21 @@ const styles: Record<string, React.CSSProperties> = {
     backgroundColor: colors.backgroundSecondary,
     padding: spacing.lg,
   },
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing.xl,
+    maxWidth: 1200,
+    margin: '0 auto',
+    width: '100%',
+  },
   mainTitle: {
     fontSize: 32,
     fontWeight: 'bold',
     color: colors.primary,
-    marginBottom: spacing.xl,
+    margin: 0,
   },
   content: {
     maxWidth: 1200,

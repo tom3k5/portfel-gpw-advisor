@@ -36,6 +36,11 @@ export const colors = {
   borderLight: '#F3F4F6',
   borderDark: '#D1D5DB',
 
+  // UI colors
+  surface: '#F9FAFB',
+  disabled: '#D1D5DB',
+  errorLight: '#FEE2E2',
+
   // Chart colors
   chart: {
     line: '#3B82F6',
