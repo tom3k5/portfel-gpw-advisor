@@ -27,6 +27,7 @@ type TimeRange = '1M' | '3M' | '6M' | '1Y' | 'ALL';
  * - Responsive sizing
  * - Color-coded for gains/losses
  * - Formatted axes
+ * - Optimized with React.memo and useMemo for performance
  *
  * @example
  * <StockChart
@@ -35,7 +36,7 @@ type TimeRange = '1M' | '3M' | '6M' | '1Y' | 'ALL';
  *   showArea={true}
  * />
  */
-export const StockChart: React.FC<StockChartProps> = ({
+export const StockChart: React.FC<StockChartProps> = React.memo(({
   data,
   title,
   showArea = false,
@@ -206,7 +207,7 @@ export const StockChart: React.FC<StockChartProps> = ({
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

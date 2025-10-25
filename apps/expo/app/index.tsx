@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { Text, Button, FAB } from 'react-native-paper';
 import { useRouter } from 'expo-router';
@@ -46,18 +46,18 @@ export default function PortfolioScreen(): JSX.Element {
   const router = useRouter();
   const summary = calculatePortfolioSummary(MOCK_POSITIONS);
 
-  const handleRowPress = (symbol: string): void => {
+  const handleRowPress = useCallback((symbol: string): void => {
     // TODO: Navigate to stock detail screen
     console.log('Pressed:', symbol);
-  };
+  }, []);
 
-  const handleImportPress = (): void => {
+  const handleImportPress = useCallback((): void => {
     router.push('/import');
-  };
+  }, [router]);
 
-  const handleSettingsPress = (): void => {
+  const handleSettingsPress = useCallback((): void => {
     router.push('/settings');
-  };
+  }, [router]);
 
   return (
     <>

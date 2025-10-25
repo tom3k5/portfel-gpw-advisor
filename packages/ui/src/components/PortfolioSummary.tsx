@@ -20,6 +20,7 @@ interface PortfolioSummaryProps {
  * - Total P&L (amount and percentage)
  * - Color-coded gains/losses
  * - Loading state support
+ * - Optimized with React.memo to prevent unnecessary re-renders
  *
  * @example
  * <PortfolioSummary
@@ -27,7 +28,7 @@ interface PortfolioSummaryProps {
  *   loading={isLoading}
  * />
  */
-export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
+export const PortfolioSummary: React.FC<PortfolioSummaryProps> = React.memo(({
   summary,
   loading = false,
 }) => {
@@ -103,7 +104,7 @@ export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
       </Card.Content>
     </Card>
   );
-};
+});
 
 const styles = StyleSheet.create({
   card: {

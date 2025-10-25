@@ -23,6 +23,7 @@ type SortDirection = 'ascending' | 'descending';
  * - Color-coded P&L (green for profit, red for loss)
  * - Responsive design
  * - Press handler for row navigation
+ * - Optimized with React.memo and useMemo for performance
  *
  * @example
  * <PortfolioTable
@@ -30,7 +31,7 @@ type SortDirection = 'ascending' | 'descending';
  *   onRowPress={(symbol) => navigation.navigate('StockDetail', { symbol })}
  * />
  */
-export const PortfolioTable: React.FC<PortfolioTableProps> = ({ positions, onRowPress }) => {
+export const PortfolioTable: React.FC<PortfolioTableProps> = React.memo(({ positions, onRowPress }) => {
   const [sortKey, setSortKey] = useState<SortKey>('symbol');
   const [sortDirection, setSortDirection] = useState<SortDirection>('ascending');
 
@@ -199,7 +200,7 @@ export const PortfolioTable: React.FC<PortfolioTableProps> = ({ positions, onRow
       </DataTable>
     </ScrollView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   scrollContainer: {
