@@ -1,0 +1,104 @@
+# .claudeignore
+# Pliki i katalogi, które Claude Code powinien ignorować
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+.nyc_output/
+*.log
+
+# Production builds
+build/
+dist/
+.next/
+out/
+.expo/
+.expo-shared/
+
+# Cache
+.cache/
+.turbo/
+.eslintcache
+*.tsbuildinfo
+
+# Environment variables (zawierają secrets)
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+credentials.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# ML Models (large files)
+*.pth
+*.onnx
+*.h5
+*.pkl
+*.joblib
+
+# Data files (usually large)
+data/
+datasets/
+*.csv
+*.parquet
+
+# Documentation builds
+docs/_build/
+site/
+
+# Package manager
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Mobile specific
+*.ipa
+*.apk
+*.aab
+android/
+ios/
+
+# Sensitive
+secrets/
+private/
+*.secret

@@ -1,0 +1,45 @@
+{
+  "name": "@portfel/expo",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "dev": "expo start --dev-client",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "build:android": "eas build --platform android",
+    "build:ios": "eas build --platform ios",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "clean": "rm -rf .expo node_modules"
+  },
+  "dependencies": {
+    "@portfel/logic": "*",
+    "@portfel/ui": "*",
+    "@react-navigation/native": "^6.1.9",
+    "expo": "~50.0.0",
+    "expo-constants": "~15.4.0",
+    "expo-notifications": "~0.27.0",
+    "expo-router": "~3.4.0",
+    "expo-status-bar": "~1.11.1",
+    "react": "^18.2.0",
+    "react-native": "^0.73.0",
+    "react-native-paper": "^5.11.3",
+    "react-native-safe-area-context": "^4.8.2",
+    "react-native-screens": "^3.29.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.6",
+    "@portfel/eslint-config": "*",
+    "@portfel/typescript-config": "*",
+    "@types/react": "^18.2.45",
+    "@types/react-native": "^0.73.0",
+    "eslint": "^8.55.0",
+    "jest": "^29.7.0",
+    "jest-expo": "~50.0.0",
+    "typescript": "^5.3.3"
+  }
+}
