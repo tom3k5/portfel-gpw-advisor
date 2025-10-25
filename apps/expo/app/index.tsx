@@ -55,6 +55,10 @@ export default function PortfolioScreen(): JSX.Element {
     router.push('/import');
   };
 
+  const handleSettingsPress = (): void => {
+    router.push('/settings');
+  };
+
   return (
     <>
       <ScrollView style={styles.container}>
@@ -62,14 +66,24 @@ export default function PortfolioScreen(): JSX.Element {
           <Text variant="headlineMedium" style={styles.title}>
             Portfel GPW Advisor
           </Text>
-          <Button
-            mode="contained"
-            icon="plus"
-            onPress={handleImportPress}
-            style={styles.importButton}
-          >
-            Import
-          </Button>
+          <View style={styles.headerButtons}>
+            <Button
+              mode="outlined"
+              icon="cog"
+              onPress={handleSettingsPress}
+              style={styles.settingsButton}
+            >
+              Settings
+            </Button>
+            <Button
+              mode="contained"
+              icon="plus"
+              onPress={handleImportPress}
+              style={styles.importButton}
+            >
+              Import
+            </Button>
+          </View>
         </View>
 
         <PortfolioSummary summary={summary} />
@@ -114,6 +128,13 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     color: colors.primary,
+  },
+  headerButtons: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+  },
+  settingsButton: {
+    borderColor: colors.primary,
   },
   importButton: {
     backgroundColor: colors.primary,

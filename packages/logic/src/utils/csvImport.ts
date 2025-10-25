@@ -1,5 +1,5 @@
 import Papa from 'papaparse';
-import type { Position } from '../types';
+import type { Position } from '../types/portfolio';
 
 /**
  * Result of CSV import operation

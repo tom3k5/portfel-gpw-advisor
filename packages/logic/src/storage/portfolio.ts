@@ -1,4 +1,4 @@
-import type { Position } from '../types';
+import type { Position } from '../types/portfolio';
 
 /**
  * Storage key for portfolio data
@@ -147,22 +147,24 @@ export class PortfolioStorage {
       if (existingIndex >= 0) {
         // Merge with existing position (calculate new average price)
         const existing = positions[existingIndex];
-        const totalCost =
-          existing.purchasePrice * existing.quantity +
-          position.purchasePrice * position.quantity;
-        const totalQuantity = existing.quantity + position.quantity;
+        if (existing) {
+          const totalCost =
+            existing.purchasePrice * existing.quantity +
+            position.purchasePrice * position.quantity;
+          const totalQuantity = existing.quantity + position.quantity;
 
-        positions[existingIndex] = {
-          ...existing,
-          quantity: totalQuantity,
-          purchasePrice: totalCost / totalQuantity,
-          currentPrice: position.currentPrice, // Update to latest price
-          // Keep earlier purchase date
-          purchaseDate:
-            existing.purchaseDate < position.purchaseDate
-              ? existing.purchaseDate
-              : position.purchaseDate,
-        };
+          positions[existingIndex] = {
+            symbol: existing.symbol,
+            quantity: totalQuantity,
+            purchasePrice: totalCost / totalQuantity,
+            currentPrice: position.currentPrice, // Update to latest price
+            // Keep earlier purchase date
+            purchaseDate:
+              existing.purchaseDate < position.purchaseDate
+                ? existing.purchaseDate
+                : position.purchaseDate,
+          };
+        }
       } else {
         // Add new position
         positions.push(position);
@@ -225,8 +227,14 @@ export class PortfolioStorage {
         return false;
       }
 
+      const existing = positions[index];
+      if (!existing) {
+        console.error(`Position ${symbol} not found`);
+        return false;
+      }
+
       positions[index] = {
-        ...positions[index],
+        ...existing,
         ...updates,
       };
 
