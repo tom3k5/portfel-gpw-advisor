@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { Button } from 'react-native-paper';
 
 import {
   calculatePortfolioSummary,
@@ -58,14 +57,12 @@ export default function HomePage(): JSX.Element {
     <main style={styles.container}>
       <div style={styles.header}>
         <h1 style={styles.mainTitle}>Portfel GPW Advisor</h1>
-        <Button
-          mode="contained"
-          icon="plus"
-          onPress={handleImportPress}
-          style={{ backgroundColor: colors.primary }}
+        <button
+          onClick={handleImportPress}
+          style={styles.button}
         >
           Import Portfolio
-        </Button>
+        </button>
       </div>
 
       <div style={styles.content}>
@@ -109,6 +106,17 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 'bold',
     color: colors.primary,
     margin: 0,
+  },
+  button: {
+    backgroundColor: colors.primary,
+    color: 'white',
+    padding: '12px 24px',
+    borderRadius: 8,
+    border: 'none',
+    fontSize: 16,
+    fontWeight: '600',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
   },
   content: {
     maxWidth: 1200,

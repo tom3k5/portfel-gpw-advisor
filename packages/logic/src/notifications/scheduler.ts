@@ -1,11 +1,24 @@
-import * as Notifications from 'expo-notifications';
-import { Platform } from 'react-native';
 import type {
   NotificationSettings,
   ScheduledNotification,
   DayOfWeek,
 } from '../types/notifications';
 import type { StorageAdapter } from '../storage/portfolio';
+
+// Dynamically import platform-specific modules
+let Notifications: any = null;
+let Platform: any = { OS: 'web' };
+
+try {
+  // Only import on native platforms
+  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+    Notifications = require('expo-notifications');
+    Platform = require('react-native').Platform;
+  }
+} catch (error) {
+  // Web environment - notifications not available
+  console.log('Running in web environment - notifications disabled');
+}
 
 /**
  * Storage key for scheduled notifications metadata
@@ -67,19 +80,21 @@ export class NotificationScheduler {
    * Required for notifications to work on Android 8.0+
    */
   private async setupAndroidChannel(): Promise<void> {
-    if (Platform.OS === 'android') {
-      try {
-        await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
-          name: 'Portfolio Reports',
-          description: 'Daily and weekly portfolio performance reports',
-          importance: Notifications.AndroidImportance.DEFAULT,
-          vibrationPattern: [0, 250, 250, 250],
-          lightColor: '#2563EB', // Blue color
-          sound: 'default',
-        });
-      } catch (error) {
-        console.error('Failed to setup Android notification channel:', error);
-      }
+    if (!Notifications || Platform.OS !== 'android') {
+      return;
+    }
+
+    try {
+      await Notifications.setNotificationChannelAsync(ANDROID_CHANNEL_ID, {
+        name: 'Portfolio Reports',
+        description: 'Daily and weekly portfolio performance reports',
+        importance: Notifications.AndroidImportance.DEFAULT,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#2563EB', // Blue color
+        sound: 'default',
+      });
+    } catch (error) {
+      console.error('Failed to setup Android notification channel:', error);
     }
   }
 
@@ -97,6 +112,10 @@ export class NotificationScheduler {
    * ```
    */
   async requestPermissions(): Promise<boolean> {
+    if (!Notifications) {
+      return false; // Web - notifications not available
+    }
+
     try {
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
@@ -124,6 +143,10 @@ export class NotificationScheduler {
    * ```
    */
   async hasPermissions(): Promise<boolean> {
+    if (!Notifications) {
+      return false; // Web - notifications not available
+    }
+
     try {
       const { status } = await Notifications.getPermissionsAsync();
       return status === 'granted';
@@ -198,6 +221,10 @@ export class NotificationScheduler {
   async scheduleDailyNotification(
     settings: NotificationSettings
   ): Promise<ScheduledNotification | null> {
+    if (!Notifications) {
+      return null; // Web - notifications not available
+    }
+
     try {
       const hasPermission = await this.hasPermissions();
       if (!hasPermission) {
@@ -255,6 +282,10 @@ export class NotificationScheduler {
   async scheduleWeeklyNotification(
     settings: NotificationSettings
   ): Promise<ScheduledNotification | null> {
+    if (!Notifications) {
+      return null; // Web - notifications not available
+    }
+
     try {
       const hasPermission = await this.hasPermissions();
       if (!hasPermission) {
@@ -353,6 +384,10 @@ export class NotificationScheduler {
    * ```
    */
   async cancelAllNotifications(): Promise<boolean> {
+    if (!Notifications) {
+      return true; // Web - nothing to cancel
+    }
+
     try {
       await Notifications.cancelAllScheduledNotificationsAsync();
       await this.clearScheduledNotifications();
@@ -375,6 +410,10 @@ export class NotificationScheduler {
    * ```
    */
   async cancelNotification(notificationId: string): Promise<boolean> {
+    if (!Notifications) {
+      return true; // Web - nothing to cancel
+    }
+
     try {
       await Notifications.cancelScheduledNotificationAsync(notificationId);
       return true;
@@ -468,6 +507,10 @@ export class NotificationScheduler {
    * ```
    */
   async sendTestNotification(): Promise<boolean> {
+    if (!Notifications) {
+      return false; // Web - notifications not available
+    }
+
     try {
       const hasPermission = await this.hasPermissions();
       if (!hasPermission) {

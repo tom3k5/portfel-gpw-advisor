@@ -7,8 +7,8 @@ import {
   AddPositionForm,
   CSVImportButton,
   ImportPreview,
-  COLORS,
-  SPACING,
+  colors as COLORS,
+  spacing as SPACING,
 } from '@portfel/ui';
 import type { Position } from '@portfel/logic';
 import { portfolioStorage, PortfolioStorage } from '@portfel/logic';

@@ -8,7 +8,11 @@ import {
   useTheme,
 } from 'react-native-paper';
 import type { Position } from '@portfel/logic';
-import { COLORS, SPACING } from '../theme';
+import { colors, spacing } from '../theme';
+
+// For backwards compatibility
+const COLORS = colors;
+const SPACING = spacing;
 
 /**
  * Form data for adding a position

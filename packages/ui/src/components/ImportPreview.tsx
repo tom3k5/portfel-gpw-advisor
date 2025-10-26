@@ -3,7 +3,11 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Card, Text, Button, Divider, Chip, DataTable } from 'react-native-paper';
 import type { Position } from '@portfel/logic';
 import { calculatePortfolioSummary } from '@portfel/logic';
-import { COLORS, SPACING } from '../theme';
+import { colors, spacing } from '../theme';
+
+// For backwards compatibility
+const COLORS = colors;
+const SPACING = spacing;
 
 /**
  * Props for ImportPreview component
@@ -102,7 +106,7 @@ export const ImportPreview: React.FC<ImportPreviewProps> = React.memo(
                 Total Shares
               </Text>
               <Text variant="titleMedium" style={styles.statValue}>
-                {summary.totalQuantity}
+                {positions.reduce((sum, p) => sum + p.quantity, 0)}
               </Text>
             </View>
           </View>

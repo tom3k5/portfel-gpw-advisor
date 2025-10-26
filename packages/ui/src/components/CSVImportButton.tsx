@@ -3,7 +3,11 @@ import { View, StyleSheet, Platform, Alert } from 'react-native';
 import { Button, Text, IconButton } from 'react-native-paper';
 import type { Position } from '@portfel/logic';
 import { parseCSV, generateSampleCSV } from '@portfel/logic';
-import { COLORS, SPACING } from '../theme';
+import { colors, spacing } from '../theme';
+
+// For backwards compatibility
+const COLORS = colors;
+const SPACING = spacing;
 
 /**
  * Props for CSVImportButton component
@@ -115,7 +119,11 @@ export const CSVImportButton: React.FC<CSVImportButtonProps> = React.memo(
           return;
         }
 
-        const file = result.assets[0];
+        const file = result.assets?.[0];
+        if (!file) {
+          setProcessing(false);
+          return;
+        }
 
         // Read file content
         const response = await fetch(file.uri);

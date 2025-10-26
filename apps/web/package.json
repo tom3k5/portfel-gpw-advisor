@@ -18,15 +18,17 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-native": "^0.73.0",
-    "react-native-web": "^0.19.9"
+    "react-native-web": "^0.19.13"
   },
   "devDependencies": {
+    "@expo/next-adapter": "^6.0.0",
     "@next/eslint-plugin-next": "^14.0.4",
     "@portfel/eslint-config": "*",
     "@portfel/typescript-config": "*",
     "@types/node": "^20.10.0",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
+    "babel-plugin-react-native-web": "^0.18.12",
     "eslint": "^8.55.0",
     "typescript": "^5.3.3"
   }

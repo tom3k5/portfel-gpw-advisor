@@ -1,16 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
-import { Text, Button, Divider, Snackbar } from 'react-native-paper';
 import { useRouter } from 'next/navigation';
 import {
   AddPositionForm,
   CSVImportButton,
   ImportPreview,
-  COLORS,
-  SPACING,
 } from '@portfel/ui';
+import { colors, spacing } from '@portfel/ui';
 import type { Position } from '@portfel/logic';
 import { portfolioStorage } from '@portfel/logic';
 
@@ -140,18 +137,18 @@ export default function ImportPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: COLORS.background }}>
+    <div style={{ minHeight: '100vh', backgroundColor: colors.backgroundSecondary }}>
       <main style={styles.main}>
         <div style={styles.container}>
           {/* Header */}
-          <View style={styles.header}>
-            <Text variant="headlineMedium" style={styles.title}>
+          <div style={styles.header}>
+            <h1 style={styles.title}>
               Import Portfolio
-            </Text>
-            <Text variant="bodyMedium" style={styles.subtitle}>
+            </h1>
+            <p style={styles.subtitle}>
               Add positions manually or import from CSV
-            </Text>
-          </View>
+            </p>
+          </div>
 
           {/* Preview Mode */}
           {previewData && (
@@ -166,43 +163,41 @@ export default function ImportPage() {
 
           {/* Normal Mode */}
           {!previewData && (
-            <ScrollView>
+            <div>
               {/* CSV Import Section */}
-              <View style={styles.section}>
-                <Text variant="titleMedium" style={styles.sectionTitle}>
+              <div style={styles.section}>
+                <h2 style={styles.sectionTitle}>
                   Import from CSV
-                </Text>
-                <Text variant="bodySmall" style={styles.sectionDescription}>
+                </h2>
+                <p style={styles.sectionDescription}>
                   Upload a CSV file with your portfolio positions
-                </Text>
+                </p>
                 <CSVImportButton
                   onImport={handleCSVImport}
                   onError={handleCSVError}
                   loading={loading}
                   showSampleDownload={true}
                 />
-              </View>
+              </div>
 
-              <Divider style={styles.divider} />
+              <hr style={styles.divider} />
 
               {/* Manual Entry Section */}
-              <View style={styles.section}>
-                <Text variant="titleMedium" style={styles.sectionTitle}>
+              <div style={styles.section}>
+                <h2 style={styles.sectionTitle}>
                   Add Manually
-                </Text>
-                <Text variant="bodySmall" style={styles.sectionDescription}>
+                </h2>
+                <p style={styles.sectionDescription}>
                   Enter position details one at a time
-                </Text>
+                </p>
 
                 {!showForm ? (
-                  <Button
-                    mode="outlined"
-                    onPress={() => setShowForm(true)}
-                    icon="plus"
+                  <button
+                    onClick={() => setShowForm(true)}
                     style={styles.showFormButton}
                   >
-                    Add Position
-                  </Button>
+                    + Add Position
+                  </button>
                 ) : (
                   <AddPositionForm
                     onSubmit={handleAddPosition}
@@ -210,90 +205,145 @@ export default function ImportPage() {
                     loading={loading}
                   />
                 )}
-              </View>
+              </div>
 
               {/* Back Button */}
-              <View style={styles.footer}>
-                <Button
-                  mode="text"
-                  onPress={() => router.push('/')}
-                  icon="arrow-left"
+              <div style={styles.footer}>
+                <button
+                  onClick={() => router.push('/')}
+                  style={styles.backButton}
                 >
-                  Back to Dashboard
-                </Button>
-              </View>
-            </ScrollView>
+                  ← Back to Dashboard
+                </button>
+              </div>
+            </div>
           )}
         </div>
 
         {/* Snackbar for feedback */}
-        <Snackbar
-          visible={snackbar.visible}
-          onDismiss={() => setSnackbar({ ...snackbar, visible: false })}
-          duration={3000}
-          action={{
-            label: 'OK',
-            onPress: () => setSnackbar({ ...snackbar, visible: false }),
-          }}
-          style={{
-            ...(snackbar.type === 'error' && styles.snackbarError),
-            ...(snackbar.type === 'success' && styles.snackbarSuccess),
-          }}
-        >
-          {snackbar.message}
-        </Snackbar>
+        {snackbar.visible && (
+          <div
+            style={{
+              ...styles.snackbar,
+              ...(snackbar.type === 'error' ? styles.snackbarError : styles.snackbarSuccess),
+            }}
+          >
+            <span>{snackbar.message}</span>
+            <button
+              onClick={() => setSnackbar({ ...snackbar, visible: false })}
+              style={styles.snackbarButton}
+            >
+              OK
+            </button>
+          </div>
+        )}
       </main>
     </div>
   );
 }
 
-const styles = StyleSheet.create({
+const styles: Record<string, React.CSSProperties> = {
   main: {
     minHeight: '100vh',
-    paddingVertical: 40,
-    paddingHorizontal: 20,
+    paddingTop: 40,
+    paddingBottom: 40,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   container: {
     maxWidth: 1200,
-    marginHorizontal: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     width: '100%',
   },
   header: {
-    marginBottom: SPACING.xl,
+    marginBottom: spacing.xl,
   },
   title: {
     fontWeight: '700',
-    color: COLORS.text,
-    marginBottom: SPACING.xs,
+    color: colors.text,
+    marginBottom: spacing.xs,
+    fontSize: 28,
   },
   subtitle: {
-    color: COLORS.textSecondary,
+    color: colors.textSecondary,
+    fontSize: 16,
   },
   section: {
-    marginBottom: SPACING.xl,
+    marginBottom: spacing.xl,
   },
   sectionTitle: {
     fontWeight: '600',
-    marginBottom: SPACING.xs,
+    marginBottom: spacing.xs,
+    fontSize: 20,
   },
   sectionDescription: {
-    color: COLORS.textSecondary,
-    marginBottom: SPACING.md,
+    color: colors.textSecondary,
+    marginBottom: spacing.md,
+    fontSize: 14,
   },
   divider: {
-    marginVertical: SPACING.xl,
+    marginTop: spacing.xl,
+    marginBottom: spacing.xl,
+    border: 'none',
+    borderTop: `1px solid ${colors.border}`,
   },
   showFormButton: {
-    alignSelf: 'flex-start',
+    backgroundColor: colors.primary,
+    color: 'white',
+    padding: '12px 24px',
+    borderRadius: 8,
+    border: 'none',
+    fontSize: 16,
+    fontWeight: '600',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+  },
+  backButton: {
+    backgroundColor: 'transparent',
+    color: colors.primary,
+    padding: '8px 16px',
+    borderRadius: 8,
+    border: `1px solid ${colors.primary}`,
+    fontSize: 14,
+    fontWeight: '600',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
   },
   footer: {
-    marginTop: SPACING.xl,
+    marginTop: spacing.xl,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  snackbar: {
+    position: 'fixed',
+    bottom: 20,
+    left: '50%',
+    transform: 'translateX(-50%)',
+    padding: '16px 24px',
+    borderRadius: 8,
+    display: 'flex',
     alignItems: 'center',
+    gap: '12px',
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '500',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+    zIndex: 1000,
   },
   snackbarError: {
-    backgroundColor: COLORS.error,
+    backgroundColor: colors.error,
   },
   snackbarSuccess: {
-    backgroundColor: COLORS.success,
+    backgroundColor: colors.success,
   },
-} as any);
+  snackbarButton: {
+    backgroundColor: 'transparent',
+    color: 'white',
+    border: 'none',
+    fontSize: 14,
+    fontWeight: '700',
+    cursor: 'pointer',
+    padding: '4px 8px',
+  },
+};
