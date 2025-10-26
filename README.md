@@ -352,7 +352,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Tomek**
-- GitHub: [@yourusername](https://github.com/yourusername)
+- GitHub: [@tom3k5](https://github.com/tom3k5)
 
 ## 🙏 Acknowledgments
 
